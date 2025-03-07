@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 
-public class TrayectorTrenImpl implements TrayectoTren {
+public class TrayectoTrenImpl implements TrayectoTren {
 	
 	//------- Atributos ---------------------------------------------------------------------------------
 	
