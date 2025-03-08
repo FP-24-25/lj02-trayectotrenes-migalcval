@@ -4,8 +4,9 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class TrayectoTrenImpl implements TrayectoTren {
+public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	
 	//------- Atributos ---------------------------------------------------------------------------------
 	
@@ -16,7 +17,7 @@ public class TrayectoTrenImpl implements TrayectoTren {
 	private List<LocalTime> horasSalida;
 	private List<LocalTime> horasLlegada;
 	
-	//------ Constrcutores ------------------------------------------------------------------------------
+	//------ Constructores ------------------------------------------------------------------------------
 	
 	//Constructor1
 	public TrayectoTrenImpl(String codigo, String nombre, TipoTren tipoTren, String estacionOrigen, String estacionFin, LocalTime horaSalidaOrigen, LocalTime horaLlegadaFin) {
@@ -83,6 +84,37 @@ public class TrayectoTrenImpl implements TrayectoTren {
 	public Duration getDuracion() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	//----- Criterio de igualdad --------------------------------------------------------------------------------------
+	
+	public int compareTo(TrayectoTren tt) {
+		int res = this.getNombre().compareTo(tt.getNombre());
+		if (res == 0) {
+			res = this.getHoraSalida().compareTo(tt.getHoraSalida());
+			if (res == 0) {
+				res = this.getCodigoTren().compareTo(tt.getCodigoTren());
+				}
+			}
+		return res;
+	}
+	
+	//------ Criterio de ordenacion -----------------------------------------------------------------------------------
+	
+	public int hashCode() {
+		return Objects.hash(nombre, horasSalida, codigo);
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TrayectoTrenImpl other = (TrayectoTrenImpl) obj;
+		return Objects.equals(nombre, other.nombre) && Objects.equals(horasSalida, other.horasSalida)
+				&& Objects.equals(codigo, other.codigo);
 	}
 
 	//------ Funciones auxiliares --------------------------------------------------------------------------------------
