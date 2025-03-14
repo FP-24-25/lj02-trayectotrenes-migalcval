@@ -65,25 +65,30 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	//------- Metodo toString() ----------------------------------------------------------------------------
 	
 	public String toString() {
-		return "TrayectoTrenImpl [codigo=" + codigo + ", nombre=" + nombre + ", tipoTren=" + tipoTren + ", estaciones="
-				+ estaciones + ", horasSalida=" + horasSalida + ", horasLlegada=" + horasLlegada + "]";
+		
+		return nombre + "-" + tipoTren + " " + "(" + codigo + ")\n" + mostrarListas(estaciones, horasSalida, horasLlegada);
 	}
 	
+	private String mostrarListas(List<String> estaciones2, List<LocalTime> horasSalida2, List<LocalTime> horasLlegada2) {
+	    String res = "";
+	    for (int i = 0; i < estaciones2.size(); i++) {
+	        res += estaciones2.get(i) + "    " + horasSalida2.get(i) + "     " + horasLlegada2.get(i) + "\n";
+	    }
+	    return res;
+	}
+
 	//------- Propiedades derivadas ------------------------------------------------------------------------
 
 	public LocalTime getHoraSalida() {
-		// TODO Auto-generated method stub
-		return null;
+		return horasSalida.get(0);
 	}
 
 	public LocalTime getHoraLlegada() {
-		// TODO Auto-generated method stub
-		return null;
+		return horasLlegada.getLast();
 	}
 
 	public Duration getDuracion() {
-		// TODO Auto-generated method stub
-		return null;
+		return Duration.between(getHoraSalida(), getHoraLlegada());
 	}
 	
 	//----- Criterio de igualdad --------------------------------------------------------------------------------------

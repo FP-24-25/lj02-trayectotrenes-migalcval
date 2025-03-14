@@ -24,6 +24,9 @@ public class TestTrayectoTrenImpl {
 		System.out.println("Lista de estaciones --> " + t.getEstaciones());
 		System.out.println("Lista de horas de salida --> " + t.getHorasSalida());
 		System.out.println("List de horas de llegada --> " + t.getHorasLlegada());
+		System.out.println("Hora de salida del tren --> " + t.getHoraSalida());
+		System.out.println("Hora de llegada del tren --> " + t.getHoraLlegada());
+		System.out.println("Duracion del trayecto --> " + t.getDuracion());
 	}
 
 }
