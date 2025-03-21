@@ -21,7 +21,6 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	
 	//Constructor1
 	public TrayectoTrenImpl(String codigo, String nombre, TipoTren tipoTren, String estacionOrigen, String estacionFin, LocalTime horaSalidaOrigen, LocalTime horaLlegadaFin) {
-		
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.tipoTren = tipoTren;
