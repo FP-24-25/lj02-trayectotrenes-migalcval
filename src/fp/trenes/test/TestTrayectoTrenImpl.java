@@ -27,6 +27,8 @@ public class TestTrayectoTrenImpl {
 		System.out.println("Hora de salida del tren --> " + t.getHoraSalida());
 		System.out.println("Hora de llegada del tren --> " + t.getHoraLlegada());
 		System.out.println("Duracion del trayecto --> " + t.getDuracion());
+		System.out.println("Hora de salida desde Sevilla es: " + t.getHoraSalida("Cordoba"));
+		System.out.println("Hora de llegada a Madrid es: " + t.getHoraLlegada("Madrid"));
 	}
 
 }

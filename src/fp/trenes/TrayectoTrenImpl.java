@@ -124,13 +124,13 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	//------ Funciones auxiliares --------------------------------------------------------------------------------------
 	
 	public LocalTime getHoraSalida(String estacion) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer pos = buscarPosicionEstacion(estacion);
+		return getHorasSalida().get(pos);
 	}
 
 	public LocalTime getHoraLlegada(String estacion) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer pos = buscarPosicionEstacion(estacion);
+		return getHorasSalida().get(pos);
 	}
 
 	public void anadirEstacionIntermedia(int posicion, String estacion, LocalTime horaLlegada, LocalTime horaSalida) {
@@ -139,8 +139,26 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	}
 
 	public void eliminarEstacionIntermedia(String estacion) {
-		// TODO Auto-generated method stub
+		Integer pos = buscarPosicionEstacion(estacion);
+		return getEstaciones().remove(pos);
 
 	}
-
+	
+	private int buscarPosicionEstacion(String estacion) {
+		Integer res = null;
+		int i = 0;
+		if (getEstaciones().contains(estacion)) {
+			for (String e: getEstaciones()) {
+				if (e.equals(estacion)) {
+					res = i;
+					break;
+				}
+				i++;
+			}
+		} 
+		
+		return res;
+	}
 }
+
+

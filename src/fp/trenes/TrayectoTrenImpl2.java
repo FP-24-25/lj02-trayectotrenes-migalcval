@@ -17,7 +17,7 @@ public class TrayectoTrenImpl2 implements TrayectoTren {
 	private List<Parada> paradas;
 	
 	//------ Constructores --------------------------------------------------------------------------------------------------------
-	//COnstructor 1
+	//Constructor 1
 	public TrayectoTrenImpl2(String codigo, String nombre, TipoTren tipoTren, String estacionOrigen, String estacionFin, LocalTime horaSalidaOrigen, LocalTime horaLlegadaFin) {
 		this.codigo = codigo;
 		this.nombre = nombre;
