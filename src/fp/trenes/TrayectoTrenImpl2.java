@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import fp.utiles.Checkers;
+
 public class TrayectoTrenImpl2 implements TrayectoTren {
 	
 	
@@ -19,12 +21,16 @@ public class TrayectoTrenImpl2 implements TrayectoTren {
 	//------ Constructores --------------------------------------------------------------------------------------------------------
 	//Constructor 1
 	public TrayectoTrenImpl2(String codigo, String nombre, TipoTren tipoTren, String estacionOrigen, String estacionFin, LocalTime horaSalidaOrigen, LocalTime horaLlegadaFin) {
+		Checkers.check("El código de un tren debe estar formado por 5 dígitos.", codigo.length() == 5);
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.tipoTren = tipoTren;
 		paradas = new ArrayList<>();
+		Checkers.check("La hora de salida de la primera estación debe ser anterior a la hora de llegada a la última estación", horaSalidaOrigen.isBefore(horaLlegadaFin));
+		Checkers.check("La hora de salida de la primera estación no puede ser nula", horaSalidaOrigen != null);
 		Parada a1 = new Parada(estacionOrigen, null, horaSalidaOrigen);
 		paradas.addFirst(a1);
+		Checkers.check("La hora de llegada a la última estación no puede ser nula", horaLlegadaFin != null);
 		Parada a2 = new Parada(estacionFin, horaLlegadaFin, null);
 		paradas.addLast(a2);
 	}

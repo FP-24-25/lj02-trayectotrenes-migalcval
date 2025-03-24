@@ -9,7 +9,7 @@ public class TestTrayectoTrenImpl {
 
 	public static void main(String[] args) {
 
-		TrayectoTrenImpl tt = new TrayectoTrenImpl("8970", "Sevilla-Madrid", TipoTren.AV_CITY, "Sevilla", "Madrid", LocalTime.of(7, 0), LocalTime.of(10, 20));
+		TrayectoTrenImpl tt = new TrayectoTrenImpl("87970", "Sevilla-Madrid", TipoTren.AV_CITY, "Sevilla", "Madrid", LocalTime.of(7, 0), LocalTime.of(10, 20));
 		mostrarTrayecto(tt);
 	}
 	

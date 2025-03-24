@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import fp.utiles.Checkers;
+
 public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	
 	//------- Atributos ---------------------------------------------------------------------------------
@@ -21,6 +23,7 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	
 	//Constructor1
 	public TrayectoTrenImpl(String codigo, String nombre, TipoTren tipoTren, String estacionOrigen, String estacionFin, LocalTime horaSalidaOrigen, LocalTime horaLlegadaFin) {
+		Checkers.check("El código de un tren debe estar formado por 5 dígitos.", codigo.length() == 5);
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.tipoTren = tipoTren;
@@ -28,10 +31,13 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 		estaciones.add(estacionOrigen);
 		estaciones.add(estacionFin);
 		this.horasSalida = new ArrayList<>();
+		Checkers.check("La hora de salida de la primera estación debe ser anterior a la hora de llegada a la última estación", horaSalidaOrigen.isBefore(horaLlegadaFin));
+		Checkers.check("La hora de salida de la primera estación no puede ser nula", horaSalidaOrigen != null);
 		horasSalida.add(horaSalidaOrigen);
 		horasSalida.add(null);
 		this.horasLlegada = new ArrayList<>();
 		horasLlegada.add(null);
+		Checkers.check("La hora de llegada a la última estación no puede ser nula", horaLlegadaFin != null);
 		horasLlegada.add(horaLlegadaFin);
 	}
 	
@@ -124,13 +130,21 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	//------ Funciones auxiliares --------------------------------------------------------------------------------------
 	
 	public LocalTime getHoraSalida(String estacion) {
+		LocalTime res = null;
 		Integer pos = buscarPosicionEstacion(estacion);
-		return getHorasSalida().get(pos);
+		if (pos != null) {
+			res = getHorasSalida().get(pos);
+		}
+		return res;
 	}
 
 	public LocalTime getHoraLlegada(String estacion) {
+		LocalTime res = null;
 		Integer pos = buscarPosicionEstacion(estacion);
-		return getHorasSalida().get(pos);
+		if (pos != null) {
+			res = getHorasLlegada().get(pos);
+		}
+		return res;
 	}
 
 	public void anadirEstacionIntermedia(int posicion, String estacion, LocalTime horaLlegada, LocalTime horaSalida) {
@@ -140,11 +154,14 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 
 	public void eliminarEstacionIntermedia(String estacion) {
 		Integer pos = buscarPosicionEstacion(estacion);
-		return getEstaciones().remove(pos);
+		getEstaciones().remove((int) pos);
+		getHorasLlegada().remove((int) pos);
+		getHorasSalida().remove((int) pos);
+		
 
 	}
 	
-	private int buscarPosicionEstacion(String estacion) {
+	private Integer buscarPosicionEstacion(String estacion) {
 		Integer res = null;
 		int i = 0;
 		if (getEstaciones().contains(estacion)) {
