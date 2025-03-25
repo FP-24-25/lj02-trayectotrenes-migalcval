@@ -77,7 +77,7 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	private String mostrarListas(List<String> estaciones2, List<LocalTime> horasSalida2, List<LocalTime> horasLlegada2) {
 	    String res = "";
 	    for (int i = 0; i < estaciones2.size(); i++) {
-	        res += estaciones2.get(i) + "    " + horasSalida2.get(i) + "     " + horasLlegada2.get(i) + "\n";
+	        res += estaciones2.get(i) + "    " + horasLlegada2.get(i) + "     " + horasSalida2.get(i) + "\n";
 	    }
 	    return res;
 	}
@@ -148,7 +148,13 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	}
 
 	public void anadirEstacionIntermedia(int posicion, String estacion, LocalTime horaLlegada, LocalTime horaSalida) {
-		// TODO Auto-generated method stub
+		Checkers.check("La posicion no es una posicion intermedia", (posicion > 0) && (posicion < getEstaciones().size()));
+		getEstaciones().add(posicion, estacion);
+		Checkers.check("La hora de llegada debe ser anterior a la hora de salida", horaLlegada.isBefore(horaSalida));
+		Checkers.check("La hora de llegada debe ser posterior a la hora de salida de la estacion anterior", horaLlegada.isAfter(getHorasSalida().get(posicion-1)));
+		getHorasLlegada().add(posicion, horaLlegada);
+		Checkers.check("La hora de salida debe ser anterior a la hora de llegada de la siguiente estacion", horaSalida.isBefore(getHorasLlegada().get(posicion+1)));
+		getHorasSalida().add(posicion, horaSalida);
 
 	}
 

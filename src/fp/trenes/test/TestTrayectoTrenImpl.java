@@ -11,6 +11,10 @@ public class TestTrayectoTrenImpl {
 
 		TrayectoTrenImpl tt = new TrayectoTrenImpl("87970", "Sevilla-Madrid", TipoTren.AV_CITY, "Sevilla", "Madrid", LocalTime.of(7, 0), LocalTime.of(10, 20));
 		mostrarTrayecto(tt);
+		tt.anadirEstacionIntermedia(1, "Cordoba", LocalTime.of(8, 10), LocalTime.of(8, 15));
+		System.out.println(tt);
+		tt.eliminarEstacionIntermedia("Cordoba");
+		System.out.println(tt);
 	}
 	
 	//------ Metodo mostrar --------------------------------------------------------------------------------
