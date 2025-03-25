@@ -83,7 +83,7 @@ public class TrayectoTrenImpl2 implements TrayectoTren {
 		
 		String res = "";
 		for (Parada a: paradas2) {
-			res += a.estacion() + "      " + a.horaSalida() + "      " + a.horaLlegada() + "\n";
+			res += a.estacion() + "      " + a.horaLlegada() + "      " + a.horaSalida() + "\n";
 		}
 		return res;
 	}
@@ -105,27 +105,59 @@ public class TrayectoTrenImpl2 implements TrayectoTren {
 	//------ Operaciones auxiliares ----------------------------------------------------------------------------------------------------------
 	
 	public void anadirEstacionIntermedia(int posicion, String estacion, LocalTime horaLlegada, LocalTime horaSalida) {
-		// TODO Auto-generated method stub
-
+		Checkers.check("La posicion no es una posicion intermedia", (posicion > 0) && (posicion < getEstaciones().size()));
+		getEstaciones().add(posicion, estacion);
+		Checkers.check("La hora de llegada debe ser anterior a la hora de salida", horaLlegada.isBefore(horaSalida));
+		Checkers.check("La hora de llegada debe ser posterior a la hora de salida de la estacion anterior", horaLlegada.isAfter(getHorasSalida().get(posicion-1)));
+		getHorasLlegada().add(posicion, horaLlegada);
+		Checkers.check("La hora de salida debe ser anterior a la hora de llegada de la siguiente estacion", horaSalida.isBefore(getHorasLlegada().get(posicion+1)));
+		getHorasSalida().add(posicion, horaSalida);
 	}
 
 	public void eliminarEstacionIntermedia(String estacion) {
-		// TODO Auto-generated method stub
-
+		Integer pos = buscarPosicionEstacion(estacion);
+		if (pos != 0 && pos < getEstaciones().size()) {
+			getEstaciones().remove((int) pos);
+			getHorasLlegada().remove((int) pos);
+			getHorasSalida().remove((int) pos);
+		} else {
+			throw new IllegalArgumentException("No se puede eliminar la estacion dada como parametro");
+		}
 	}
 	
 	public LocalTime getHoraSalida(String estacion) {
-		// TODO Auto-generated method stub
-		return null;
+		LocalTime res = null;
+		Integer pos = buscarPosicionEstacion(estacion);
+		if (pos != null) {
+			res = getHorasSalida().get(pos);
+		}
+		return res;
 	}
 
 	public LocalTime getHoraLlegada(String estacion) {
-		// TODO Auto-generated method stub
-		return null;
+		LocalTime res = null;
+		Integer pos = buscarPosicionEstacion(estacion);
+		if (pos != null) {
+			res = getHorasLlegada().get(pos);
+		}
+		return res;
+	}
+	
+	private Integer buscarPosicionEstacion(String estacion) {
+		Integer res = null;
+		Integer i = 0;
+		for (String e: getEstaciones()) {
+			if (e.equals(estacion)) {
+				res = i;
+				break;
+			}
+			i++;
+		}
+		return res;
 	}
 	
 	//----- Criterio de igualdad --------------------------------------------------------------------------------------
-	
+
 	public int compareTo(TrayectoTren tt) {
 		int res = this.getNombre().compareTo(tt.getNombre());
 		if (res == 0) {
@@ -154,5 +186,4 @@ public class TrayectoTrenImpl2 implements TrayectoTren {
 		return Objects.equals(nombre, other.getNombre()) && Objects.equals(getHorasSalida(), other.getHorasSalida())
 				&& Objects.equals(codigo, other.getCodigoTren());
 	}
-
 }

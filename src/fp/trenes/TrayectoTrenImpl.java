@@ -160,11 +160,13 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 
 	public void eliminarEstacionIntermedia(String estacion) {
 		Integer pos = buscarPosicionEstacion(estacion);
-		getEstaciones().remove((int) pos);
-		getHorasLlegada().remove((int) pos);
-		getHorasSalida().remove((int) pos);
-		
-
+		if (pos != null && (pos != 0 && pos < getEstaciones().size())) {
+			getEstaciones().remove((int) pos);
+			getHorasLlegada().remove((int) pos);
+			getHorasSalida().remove((int) pos);
+		} else {
+			throw new IllegalArgumentException("No se puede eliminar la estacion dada como parametro");
+		}
 	}
 	
 	private Integer buscarPosicionEstacion(String estacion) {
