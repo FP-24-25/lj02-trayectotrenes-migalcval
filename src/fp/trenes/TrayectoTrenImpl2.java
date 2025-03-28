@@ -21,7 +21,7 @@ public class TrayectoTrenImpl2 implements TrayectoTren {
 	//------ Constructores --------------------------------------------------------------------------------------------------------
 	//Constructor 1
 	public TrayectoTrenImpl2(String codigo, String nombre, TipoTren tipoTren, String estacionOrigen, String estacionFin, LocalTime horaSalidaOrigen, LocalTime horaLlegadaFin) {
-		Checkers.check("El código de un tren debe estar formado por 5 dígitos.", codigo.length() == 5);
+		Checkers.check("El código de un tren debe estar formado por 5 dígitos.", codigo.length() == 5 && sonDigitos(codigo));
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.tipoTren = tipoTren;
@@ -152,6 +152,17 @@ public class TrayectoTrenImpl2 implements TrayectoTren {
 				break;
 			}
 			i++;
+		}
+		return res;
+	}
+	
+	private boolean sonDigitos(String codigo2) {
+		boolean res = true;
+		for (Character c: codigo2.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				res = false;
+				break;
+			}
 		}
 		return res;
 	}
