@@ -23,7 +23,7 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	
 	//Constructor1
 	public TrayectoTrenImpl(String codigo, String nombre, TipoTren tipoTren, String estacionOrigen, String estacionFin, LocalTime horaSalidaOrigen, LocalTime horaLlegadaFin) {
-		Checkers.check("El código de un tren debe estar formado por 5 dígitos.", codigo.length() == 5);
+		Checkers.check("El código de un tren debe estar formado por 5 dígitos.", codigo.length() == 5 && sonDigitos(codigo));
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.tipoTren = tipoTren;
@@ -42,7 +42,7 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	}
 	
 	//------- Getters -----------------------------------------------------------------------------------
-	
+
 	public String getCodigoTren() {
 		return codigo;
 	}
@@ -131,7 +131,7 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 	
 	public LocalTime getHoraSalida(String estacion) {
 		LocalTime res = null;
-		Integer pos = buscarPosicionEstacion(estacion);
+		Integer pos = estaciones.indexOf(estacion);
 		if (pos != null) {
 			res = getHorasSalida().get(pos);
 		}
@@ -140,7 +140,7 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 
 	public LocalTime getHoraLlegada(String estacion) {
 		LocalTime res = null;
-		Integer pos = buscarPosicionEstacion(estacion);
+		Integer pos = estaciones.indexOf(estacion);
 		if (pos != null) {
 			res = getHorasLlegada().get(pos);
 		}
@@ -149,39 +149,34 @@ public class TrayectoTrenImpl implements Comparable<TrayectoTren> {
 
 	public void anadirEstacionIntermedia(int posicion, String estacion, LocalTime horaLlegada, LocalTime horaSalida) {
 		Checkers.check("La posicion no es una posicion intermedia", (posicion > 0) && (posicion < getEstaciones().size()));
-		getEstaciones().add(posicion, estacion);
+		estaciones.add(posicion, estacion);
 		Checkers.check("La hora de llegada debe ser anterior a la hora de salida", horaLlegada.isBefore(horaSalida));
 		Checkers.check("La hora de llegada debe ser posterior a la hora de salida de la estacion anterior", horaLlegada.isAfter(getHorasSalida().get(posicion-1)));
-		getHorasLlegada().add(posicion, horaLlegada);
+		horasLlegada.add(posicion, horaLlegada);
 		Checkers.check("La hora de salida debe ser anterior a la hora de llegada de la siguiente estacion", horaSalida.isBefore(getHorasLlegada().get(posicion+1)));
-		getHorasSalida().add(posicion, horaSalida);
+		horasSalida.add(posicion, horaSalida);
 
 	}
 
 	public void eliminarEstacionIntermedia(String estacion) {
-		Integer pos = buscarPosicionEstacion(estacion);
+		Integer pos = estaciones.indexOf(estacion);
 		if (pos != null && (pos != 0 && pos < getEstaciones().size())) {
-			getEstaciones().remove((int) pos);
-			getHorasLlegada().remove((int) pos);
-			getHorasSalida().remove((int) pos);
+			estaciones.remove((int) pos);
+			horasLlegada.remove((int) pos);
+			horasSalida.remove((int) pos);
 		} else {
 			throw new IllegalArgumentException("No se puede eliminar la estacion dada como parametro");
 		}
 	}
 	
-	private Integer buscarPosicionEstacion(String estacion) {
-		Integer res = null;
-		int i = 0;
-		if (getEstaciones().contains(estacion)) {
-			for (String e: getEstaciones()) {
-				if (e.equals(estacion)) {
-					res = i;
-					break;
-				}
-				i++;
+	private boolean sonDigitos(String codigo2) {
+		boolean res = true;
+		for (Character c: codigo2.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				res = false;
+				break;
 			}
-		} 
-		
+		}
 		return res;
 	}
 }
